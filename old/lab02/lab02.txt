@@ -1,0 +1,338 @@
+== Question 1: Searching a Dictionary with Less == 
+
+a) What word is on line 2000 
+
+Less keystrokes: 2000G
+Word: Algonquian
+
+b) the first word in the dictionary file containing z
+
+Less keystrokes: /z
+Word: Abkhaz
+
+c) the last word in the dictionary that contains the substring ooz ?
+
+Less keystrokes: G ?ooz<ENTER>
+Word: zoozoos
+
+
+== Question 2: Applying  Unix Tools to a Dictionary == 
+
+a) How many total words does the file contain?  
+
+Command: wc -w words.txt
+Answer: 390586 words.txt
+
+b) How many total words, excluding those ending in "'s", are there in the dictionary?
+
+Pipeline: egrep -v "s" words.txt | wc -w
+Answer:   130448 words
+
+c) How could you use cat -n and grep to find out which word is on line 100000? 
+
+Pipeline: cat -n words.txt | grep '100000\t'
+Answer: 100000	adviser
+
+d) How could you use cat -n and grep to print the 700th line, and no other lines?
+
+Pipeline: cat -n words.txt | grep -m 1 '700\t' 
+Answer:    700	Adirondack
+
+
+e) How do you use head and tail to find out what word is on line 200000 
+
+Pipeline: tail -n+200000 words.txt | head -n1
+Answer: geodynamics's
+
+== Question 3: Finding Unusual Words With Regular Expressions == 
+
+a) which words contain the characters "lmn" consecutively?
+
+Pipeline: egrep lmm words.txt
+Answer:
+Selmner
+Selmner's
+almner
+almners
+calmness
+calmness's
+calmnesses
+
+b) how many words contain "zz", but do not end in apostrophe-s ('s)?
+
+Pipeline: egrep zz words.txt | egrep -v "'s" | wc -w
+Answer:      628
+
+c) how many words contain four consecutive vowels?
+
+Pipeline: egrep -i '[aeiou]{4}' words.txt | wc -w
+Answer:      207
+
+
+d) which English words contain all 5 english vowels "aeiou" in that order? 
+
+Pipeline: egrep -i 'a.*e.*i.*o.*u.' words.txt
+abstemious
+abstemiously
+abstemiousness
+abstemiousness's
+abstemiousnesses
+abstentious
+adenocarcinomatous
+adventitious
+adventitiously
+adventitiousness
+adventitiousness's
+adventitiousnesses
+aeruginous
+amentiferous
+androdioecious
+andromonoecious
+anemophilous
+antenniferous
+antireligious
+arenicolous
+argentiferous
+arsenious
+arteriovenous
+asclepiadaceous
+autoecious
+autoeciously
+bacteriophagous
+caesalpiniaceous
+caesious
+cavernicolous
+chaetiferous
+facetious
+facetiously
+facetiousness
+facetiousness's
+facetiousnesses
+flagelliferous
+garnetiferous
+haemoglobinous
+hamamelidaceous
+lateritious
+paroecious
+quadrigeminous
+sacrilegious
+sacrilegiously
+sacrilegiousness
+sacrilegiousness's
+sacrilegiousnesses
+sarraceniaceous
+supercalifragilisticexpialidocious
+ultrareligious
+ultraserious
+valerianaceous
+
+
+e) how many English words contain all 5 english vowels "aeiou" in that order? 
+
+Pipeline: egrep -i 'a.*e.*i.*o.*u.' words.txt | wc -w
+Answer:      53
+
+f) Challenge which English words contain exactly 5 vowels and the vowels are "aeiou" in that order? 
+
+Pipeline: egrep -i '^[^aeiou]*a[^aeiou]*e[^aeiou]*i[^aeiou]*o[^aeiou]*u[^aeiou]*' words.txt
+Answer:
+ds.txt
+abstemious
+abstemiously
+abstemiousness
+abstemiousness's
+abstemiousnesses
+abstentious
+arsenious
+caesious
+facetious
+facetiously
+facetiousness
+facetiousness's
+facetiousnesses
+
+
+g) How many 10+ letter lower case words which contain a 9 character lower-case word.
+
+[not sure]
+
+== Question 4: egreping MPs == 
+
+a) Write an egrep command that will print all the lines in the file where the electorate begins with W.
+
+Pipeline: egrep 'Member for W' parliament.txt
+
+Hon Tony Abbott: Member for Warringah, New South Wales
+Mr Scott Buchholz: Member for Wright, Queensland
+Hon Tony Burke: Member for Watson, New South Wales
+Mr Nick Champion: Member for Wakefield, South Australia
+Mr Peter Khalil: Member for Wills, Victoria
+Mr Llew O'Brien: Member for Wide Bay, Queensland
+Ms Anne Stanley: Member for Werriwa, New South Wales
+Hon Dan Tehan: Member for Wannon, Victoria
+Hon Malcolm Turnbull: Member for Wentworth, New South Wales
+
+b) Write an egrep command that will list all the lines in the file where the MP's first name is Andrew. 
+
+Pipeline: egrep '(Mr|Mrs|Ms|Dr|The Hon) +Andrew' parliament.txt
+
+Mr Andrew Broad: Member for Mallee, Victoria
+Mr Andrew Gee: Member for Calare, New South Wales
+Mr Andrew Giles: Member for Scullin, Victoria
+Mr Andrew Hastie: Member for Canning, Western Australia
+Mr Andrew Laming: Member for Bowman, Queensland
+Hon Dr Andrew Leigh: Member for Fenner, Australian Capital Territory
+Mr Andrew Wallace: Member for Fisher, Queensland
+Mr Andrew Wilkie: Member for Denison, Tasmania
+
+
+c) Write an egrep command that will print all the lines in the file where the MP's surname (last name) ends in the letter 'y'.
+
+Pipeline: egrep 'y:' parliament.txt
+
+Hon Linda Burney: Member for Barton, New South Wales
+Mr Pat Conroy: Member for Charlton, New South Wales
+Hon Michael Danby: Member for Melbourne Ports, Victoria
+Hon David Feeney: Member for Batman, Victoria
+Ms Justine Keay: Member for Braddon, Tasmania
+Mr Craig Kelly: Member for Hughes, New South Wales
+Ms Michelle Landry: Member for Capricornia, Queensland
+Hon Craig Laundy: Member for Reid, New South Wales
+Hon Sussan Ley: Member for Farrer, New South Wales
+Mr Rowan Ramsey: Member for Grey, South Australia
+Ms Anne Stanley: Member for Werriwa, New South Wales
+
+
+d) Write an egrep command that will print all the lines in the file where the last name and electorate ends in the letter 'y'.
+
+Pipeline:  egrep 'y:.*y,' parliament.txt
+Mr Rowan Ramsey: Member for Grey, South Australia
+
+e) Write an egrep command that will print all the lines in the file where the last name or electorate ends in the letter 'y'.
+
+Pipeline: egrep 'y:|y,' parliament.txt
+
+Hon Linda Burney: Member for Barton, New South Wales
+Mr Pat Conroy: Member for Charlton, New South Wales
+Mr Chris Crewther: Member for Dunkley, Victoria
+Hon Michael Danby: Member for Melbourne Ports, Victoria
+Mr Milton Dick: Member for Oxley, Queensland
+Hon David Feeney: Member for Batman, Victoria
+Hon Ed Husic: Member for Chifley, New South Wales
+Mr Stephen Jones: Member for Throsby, New South Wales
+Hon Bob Katter: Member for Kennedy, Queensland
+Ms Justine Keay: Member for Braddon, Tasmania
+Mr Craig Kelly: Member for Hughes, New South Wales
+Ms Michelle Landry: Member for Capricornia, Queensland
+Hon Craig Laundy: Member for Reid, New South Wales
+Hon Sussan Ley: Member for Farrer, New South Wales
+Mr Ben Morton: Member for Tangney, Western Australia
+Mr Llew O'Brien: Member for Wide Bay, Queensland
+Hon Tanya Plibersek: Member for Sydney, New South Wales
+Mr Rowan Ramsey: Member for Grey, South Australia
+Ms Michelle Rowland: Member for Greenway, New South Wales
+The Hon Tony Smith: Member for Casey, Victoria
+Ms Anne Stanley: Member for Werriwa, New South Wales
+Hon Wayne Swan: Member for Lilley, Queensland
+Mr Trent Zimmerman: Member for North Sydney, New South Wales
+
+f) Write an egrep command to print all the lines in the file where there is any part of the MP's name or the electorate name that ends in ng.
+
+Pipeline: egrep 'ng:|ng,' parliament.txt
+
+Mr John Alexander OAM: Member for Bennelong, New South Wales
+Hon Josh Frydenberg: Member for Kooyong, Victoria
+Mr Luke Gosling: Member for Solomon, Northern Territory
+Mr Andrew Hastie: Member for Canning, Western Australia
+Hon Michael Keenan: Member for Stirling, Western Australia
+Hon Catherine King: Member for Ballarat, Victoria
+Ms Madeleine King: Member for Brand, Western Australia
+Mr Andrew Laming: Member for Bowman, Queensland
+Hon Bill Shorten: Member for Maribyrnong, Victoria
+
+g) Write an egrep command that will print all the lines in the file where the MP's surname (last name) both begins and ends with a vowel. 
+
+Pipeline: egrep -i ' [aeiou][^ ]*[aeiou]:' parliament.txt
+
+Hon Anthony Albanese: Member for Grayndler, New South Wales
+Ms Cathy McGowan AO: Member for Indi, Victoria
+
+h) Write an egrep command that will print all the lines in the file where the electorate name contains multiple words (separated by spaces or hyphens). 
+
+Pipeline:egrep ': Member for [^ ]+-' parliament.txt
+Answer:
+
+The Hon Dr Mike Kelly AM: Member for Eden-Monaro, New South Wales
+
+== Question 5: Pipelining MPs == 
+
+a) Write a shell pipeline which prints the 8 Australians states & territory
+in order of the number of MPs they have. 
+
+Pipeline:
+
+b) Challenge: write a shell pipeline which prints the 2nd most common MP first name. 
+
+Pipeline:
+Answer:
+
+== Question 6: Counting Classes ==
+
+a) How many total classes are there?
+
+Command: wc -l classes.txt
+
+     314 classes.txt
+
+b) How many different courses have classes?
+
+Pipeline: cut -f1 classes.txt | sort -u | wc -l 
+      36
+
+
+
+c) Write a pipeline which will print the course with the most classes?
+
+Pipeline: cut -f1 classes.txt | sort | uniq -c | sort -rn | awk 'NR == 1 {print $2}'
+
+ENGG1811
+
+d) Give a command line that prints the most frequently-used tut room? 
+
+Pipeline: awk -F$'\t' '$3 == "TUT" || $3 == "TLB" {print $5}' classes.txt | sort | uniq -c | sort -rn | awk 'NR == 1 {print $2, $3}'
+
+Quad G041
+
+e) Give a command line that prints the most popular time-of-day for tutes? 
+
+Pipeline: awk -F$'\t' '$3 == "TUT" || $3 == "TLB" {print $4}' classes.txt | cut -d' ' -f2 | cut -d'-' -f1 | sort | uniq -c | sort -rn | awk 'NR == 1 {print $2}'
+
+12
+
+f)  Challenge: which COMP courses run the most simultaneous classes of the same type? 
+
+[Not sure how to do]
+
+g) Challenge: write a pipeline that prints list of the course names (only) of COMP courses that run simultaneous classes of the same type?
+
+[Not sure how to do]
+
+== Question 7: Challenge - Interesting Regexps ==
+
+a) Match any line containing at least one A and at least one B.
+
+Regexp: A.*B|B.*A
+
+b) Match any line any line containing only the characters A and B such that all pairs of adjacent As occur before any pairs of adjacent Bs
+
+Regexp: [Not sure how to do]
+
+c) Match any line containing  only the characters A and B such that all number of A's is divisible by 4.
+
+Regexp:[Not sure how to do]
+
+d) Match any line containing n As followed by n Bs and no other characters..
+
+[Not sure how to do]
+
+
