@@ -299,7 +299,7 @@ ENGG1811
 
 d) Give a command line that prints the most frequently-used tut room? 
 
-Pipeline: awk -F$'\t' '$3 == "TUT" || $3 == "TLB" {print $5}' classes.txt | sort | uniq -c | sort -rn | awk 'NR == 1 {print $2, $3}'
+Pipeline: awk -F$'\t' '$3 == "TUT" || $3 == "TLB" {print $5}' classes.txt | sort | uniq -c | sort -rn | awk 'NR == 1 {print $1, $2, $3}'
 
 Quad G041
 
