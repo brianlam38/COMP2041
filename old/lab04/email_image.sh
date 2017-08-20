@@ -1,5 +1,5 @@
 #!/bin/bash
-for x;
+for x
 do
 	display "$x"
 	#asks + takes in user email input
@@ -9,6 +9,6 @@ do
 	echo "Message to accompany image?"
 	read message
 	#reads out message and sends email
-	echo '$message'| mutt -s "$x" -a "$x" -- "$email"
+	echo "$message"| mutt -s "$x" -a "$x" -- "$email"
 	echo "$x" sent to "$email"
 done
