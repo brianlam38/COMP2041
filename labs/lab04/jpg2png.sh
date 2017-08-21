@@ -2,7 +2,12 @@
 
 for pic in *.jpg
 do
-	echo $pic | cut -f1 -d '.'
-	convert "$pic".jpg "$pic".png
-	#sed 's/*\.jpg/$pic\.png/'
+	if [ -e "$pic".png ]
+	then
+		echo $pic already exists
+	else
+		convert "$pic" "${pic%.*}".png
+		rm "$pic"
+	fi
 done
+
