@@ -1,5 +1,8 @@
 #!/bin/sh
 
+# Shell doesn't care about type in variables.
+
+
 x=1
 y=fred
 echo $x$y
