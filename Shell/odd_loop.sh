@@ -1,7 +1,5 @@
 #/bin/sh
 
-# This script prints all odd numbers between 1..99
-
 i=1
 while [ $i -le 99 ]
 do
