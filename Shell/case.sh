@@ -10,4 +10,4 @@ do
 		"guten tag")	echo German		;;
 		*)				echo Unknown Language: $f ;;
 	esac
-done < myfile.txt	# stdin, read from file "myfile"
+done < case_file.txt	# stdin, read from file "myfile"
