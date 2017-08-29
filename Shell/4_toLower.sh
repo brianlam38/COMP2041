@@ -14,13 +14,14 @@ for filename in "$@"
 do
 	new_filename=`echo "$filename" | tr A-Z a-z`		# change to lowercase + echo new name
 	test "$filename" = "$new_filename" && continue		# test for errors
-	if [ -r "$new_filename" ]
+
+	if [ -r "$new_filename" ]							# if file exists, echo error message
 	then
 		echo "$0: $new_filename exists" 1>&2
-	elif [ -e "$filename" ]
+	elif [ -e "$filename" ]								# if file exists, change to new filename
 	then
 		mv -- "$filename" "$new_filename"
-	else
+	else												# else file doesn't exist
 		echo "$0: $filename not found" 1>&2
 	fi
 done
