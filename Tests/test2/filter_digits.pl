@@ -1,5 +1,7 @@
 #!/usr/bin/perl
 
+# PASSED ALL CSE TESTS
+
 # read from stdin, remove all digits
 # write to stdout
 

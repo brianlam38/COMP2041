@@ -1,13 +1,11 @@
 #!/usr/bin/perl
 
-# take in args
-# ARG[0] = nth line
-# ARG[1] = filename
+# PASSED ALL CSE TESTS
 
-$nth = $ARGV[0];
-$file = $ARGV[1];
+$nth = $ARGV[0];		# take in nth line value
+$file = $ARGV[1];		# take in file
 
-$ctr = 1;
+$ctr = 1;				# line counter
 
 open F, '<', $file;			# open file for reading
 foreach $line (<F>) {		# for each line in file
