@@ -4,6 +4,8 @@
 
 use LWP::Simple;
 
+@last = ();
+
 $base = "http://timetable.unsw.edu.au/2017/";
 $html = ".html";
 foreach $arg (@ARGV) {
@@ -39,8 +41,48 @@ foreach $arg (@ARGV) {
 				next;
 			}
 			$prev{$str} = 1;
-                	print $arg.": ".$sem." ".$str."\n";
+                	push(@last, $arg.": ".$sem." ".$str."\n");
                 }
                 $count++;
         }
+}
+
+%hash = {};
+foreach $item (@last) {
+	$prev;
+	if ($ARGV[0] eq '-d') {
+		$item =~ /(S1|S2)/;
+		$sem = $1;
+		@array = split(/ /, $item);
+		$count = 0;
+		foreach $n (@array) {
+			if ($n =~ /(Mon|Tue|Wed|Thu|Fri)/) {
+				$day = $1;
+				$start = $array[$count + 1];
+				$end = $array[$count + 3];
+				$start =~ s/:00//;
+				$end =~ s/:00//;
+				$hours = $end - $start;
+				$ctr = 0;
+				$course = $array[0];
+				$course =~ s/://;
+				while ($ctr < $hours) {
+					$newStart = 0;
+					$newStart = $start + $ctr;
+					$str = $sem." ".$course." ".$day." ".$newStart."\n";
+					if (exists $hash{$str}) {
+						$ctr++;
+						next;
+					}
+					print $str;
+					push(@n, $str);
+					$hash{$str} = 1;
+					$ctr++;
+				}
+			}
+			$count++;
+		}
+	} else {
+		print $item;
+	}
 }
