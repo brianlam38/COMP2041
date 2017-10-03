@@ -51,13 +51,21 @@ foreach $line (<F>) {
 	}
 
 	# copy while loop
-	if ($line =~ /(while)/ || $line =~ /(if)/) {
+	if ($line =~ /(while)/ || $line =~ /(if)/ || $line =~ /(else)/) {
+		if ($line =~ /(else)/) {
+			$line =~ s/^\s//g;
+			chomp($line);
+			$line = "    }"." ".$line." {\n";
+			push(@perl, $line);
+			next;
+		}
 		$new = $line;
+		$new =~ s/^\s//g;
 		$new =~ s/[\(]//; $new =~ s/[\)]//;		# change (()) to ()
 
 		$cmp1 = $new;
 		$cmp2 = $new;
-		$cmp1 =~ s/(while \()//; $cmp1 =~ s/ .*//; # grab comparison var 1
+		$cmp1 =~ s/(.* \()//; $cmp1 =~ s/ .*//; # grab comparison var 1
 		$cmp2 =~ s/.* //; $cmp2 =~ s/\)//;		   # grab comparison var 2
 		chomp($cmp1); chomp($cmp2);
 		if ($cmp1 =~ /[a-z]/) {					# if var -> add $
@@ -71,6 +79,9 @@ foreach $line (<F>) {
 			$new =~ s/$cmp2\)/$cmp2\) {/
 		}
 		#print $new;
+		if ($new =~ /(if)/) {
+			$new = "    ".$new;
+		}
 		push (@perl, $new);
 		# copy code block inside while loop
 	}
@@ -94,14 +105,19 @@ foreach $line (<F>) {
 			if ($val2 =~ /[a-z]/) {
 				$val2 = "\$".$val2;
 			}
-			$str = "    \$".$array[0]." = ".$val1." ".$operator." ".$val2.";"."\n";
+			$str = "        \$".$array[0]." = ".$val1." ".$operator." ".$val2.";"."\n";
 			push(@perl, $str);
 		}
 	}
 
-	# copy closing brace
-	if ($line eq "done\n" || $line =~ /fi$/) {
+	# copy closing loop
+	if ($line eq "done\n") {
 		push(@perl, "}\n");
+	}
+
+	# copy closing if statement
+	if ($line =~ /fi$/) {
+		push(@perl, "    }\n");
 	}
 
 	# copy echo
