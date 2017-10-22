@@ -1,0 +1,15 @@
+{% extends "peer_base.html" %}
+
+{% block body %}
+
+<p>These assessments have been entered for you:</p>
+<ul>
+	{% for i in list %}
+	<li>{{ i }}</li>
+	{% endfor %}
+</ul>
+
+<p>Your median grade is <b>{{ med }}</b></p>
+
+
+{% endblock %}

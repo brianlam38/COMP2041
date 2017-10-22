@@ -1,0 +1,12 @@
+{% extends "game_base.html" %}
+{% block body %}
+
+<h1>Congratulations!</h1>
+<p>You guessed correctly</p>
+<p>The number you guessed was {{ number }}</p>
+<p>Play again?</p>
+<form method="POST" action="start">
+	<input type="submit" value="yes">
+</form>
+
+{% endblock %}
