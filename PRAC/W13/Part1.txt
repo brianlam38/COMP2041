@@ -1,0 +1,8 @@
+# stdout file content
+# substitute anything between a-j onwards with ' '
+# sort
+
+2n 
+4t
+7t
+11t
